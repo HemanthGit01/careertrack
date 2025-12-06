@@ -1,4 +1,4 @@
-package com.hemanth.careertrack_backend;
+package com.hemanth.careertrack;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
