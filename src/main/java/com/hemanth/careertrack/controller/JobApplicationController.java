@@ -1,9 +1,12 @@
 package com.hemanth.careertrack.controller;
 
+import com.hemanth.careertrack.dto.JobApplicationRequest;
+import com.hemanth.careertrack.dto.JobApplicationResponse;
+import com.hemanth.careertrack.mapper.JobApplicationMapper;
 import com.hemanth.careertrack.model.ApplicationStatus;
 import com.hemanth.careertrack.model.JobApplication;
 import com.hemanth.careertrack.service.JobApplicationService;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,47 +16,62 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/job-applications")
 public class JobApplicationController {
+
     private final JobApplicationService service;
-    public  JobApplicationController(JobApplicationService service){
+
+    public JobApplicationController(JobApplicationService service) {
         this.service = service;
     }
-    //CREATE
+
+    // CREATE
     @PostMapping
-    public ResponseEntity<JobApplication> create (@RequestBody JobApplication application){
-        JobApplication saved = service.create(application);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    public ResponseEntity<JobApplicationResponse> create(
+            @Valid @RequestBody JobApplicationRequest request) {
+
+        JobApplication toSave = JobApplicationMapper.toEntity(request);
+        JobApplication saved = service.create(toSave);
+        JobApplicationResponse response = JobApplicationMapper.toResponse(saved);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    //GET ALL (With optional filters)
+    // GET ALL (with optional filters)
     @GetMapping
-    public ResponseEntity<List<JobApplication>> getAll(
-            @RequestParam(required = false)ApplicationStatus status,
-            @RequestParam(required = false) String companyName){
-        List<JobApplication> list = service.getAll(status, companyName);
-        return ResponseEntity.ok(list);
+    public ResponseEntity<List<JobApplicationResponse>> getAll(
+            @RequestParam(required = false) ApplicationStatus status,
+            @RequestParam(required = false) String companyName) {
+
+        List<JobApplication> entities = service.getAll(status, companyName);
+        List<JobApplicationResponse> responses = JobApplicationMapper.toResponseList(entities);
+
+        return ResponseEntity.ok(responses);
     }
 
-    //GET BY ID
+    // GET BY ID
     @GetMapping("/{id}")
-    public ResponseEntity<JobApplication> getById(@PathVariable Long id){
-        JobApplication application = service.getById(id);
-        return ResponseEntity.ok(application);
+    public ResponseEntity<JobApplicationResponse> getById(@PathVariable Long id) {
+        JobApplication entity = service.getById(id);
+        JobApplicationResponse response = JobApplicationMapper.toResponse(entity);
+        return ResponseEntity.ok(response);
     }
 
-    //UPDATE
+    // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<JobApplication> update(
+    public ResponseEntity<JobApplicationResponse> update(
             @PathVariable Long id,
-            @RequestBody JobApplication updated){
-        JobApplication updatedApp = service.update(id , updated);
-        return  ResponseEntity.ok(updatedApp);
+            @Valid @RequestBody JobApplicationRequest request) {
+
+        JobApplication updatedEntity = JobApplicationMapper.toEntity(request);
+        JobApplication saved = service.update(id, updatedEntity);
+        JobApplicationResponse response = JobApplicationMapper.toResponse(saved);
+
+        return ResponseEntity.ok(response);
     }
 
-    //DELETE
+    // DELETE
     @DeleteMapping("/{id}")
-    public  ResponseEntity<Void> delete (@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
