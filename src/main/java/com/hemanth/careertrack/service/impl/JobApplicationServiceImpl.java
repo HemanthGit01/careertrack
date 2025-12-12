@@ -5,6 +5,8 @@ import com.hemanth.careertrack.model.JobApplication;
 import com.hemanth.careertrack.model.ApplicationStatus;
 import com.hemanth.careertrack.repository.JobApplicationRepository;
 import com.hemanth.careertrack.service.JobApplicationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,12 +35,30 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     @Override
     public List<JobApplication> getAll(ApplicationStatus status, String companyName) {
         if (status != null) {
-            return repository.findByStatus(status);
+            return repository.findByStatus(status, Pageable.unpaged()).getContent();
         }
         if (companyName != null && !companyName.isBlank()) {
-            return repository.findByCompanyNameContainingIgnoreCase(companyName);
+            return repository.findByCompanyNameContainingIgnoreCase(companyName, Pageable.unpaged()).getContent();
         }
         return repository.findAll();
+    }
+
+    @Override
+    public Page<JobApplication> getAllPaged(ApplicationStatus status, String companyName, Pageable pageable) {
+
+        if (status != null && companyName != null && !companyName.isBlank()) {
+            return repository.findByStatusAndCompanyNameContainingIgnoreCase(status, companyName, pageable);
+        }
+
+        if (status != null) {
+            return repository.findByStatus(status, pageable);
+        }
+
+        if (companyName != null && !companyName.isBlank()) {
+            return repository.findByCompanyNameContainingIgnoreCase(companyName, pageable);
+        }
+
+        return repository.findAll(pageable);
     }
 
     @Override

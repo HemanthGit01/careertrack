@@ -7,6 +7,10 @@ import com.hemanth.careertrack.model.ApplicationStatus;
 import com.hemanth.careertrack.model.JobApplication;
 import com.hemanth.careertrack.service.JobApplicationService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -74,4 +78,27 @@ public class JobApplicationController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Page<JobApplicationResponse>> getPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction,
+            @RequestParam(required = false) ApplicationStatus status,
+            @RequestParam(required = false) String companyName
+    ) {
+        Sort sort = direction.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<JobApplication> result = service.getAllPaged(status, companyName, pageable);
+
+        Page<JobApplicationResponse> response = result.map(JobApplicationMapper::toResponse);
+
+        return ResponseEntity.ok(response);
+    }
+
 }

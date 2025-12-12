@@ -4,7 +4,6 @@ public enum ApplicationStatus {
     APPLIED,
     ONLINE_TEST,
     INTERVIEW,
-    OFFER,
+    OFFERED,
     REJECTED
-
 }
