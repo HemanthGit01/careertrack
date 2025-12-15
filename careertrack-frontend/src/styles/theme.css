@@ -1,0 +1,12 @@
+:root {
+  --color-bg: #f7f7f7;
+  --color-surface: #ffffff;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #2563eb;
+  --color-text: #1f2937;
+  --color-text-light: #6b7280;
+  --radius: 8px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.08);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.12);
+  --transition: 0.2s ease;
+}
