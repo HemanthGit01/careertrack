@@ -1,5 +1,6 @@
 @import "./theme.css";
 
+/* RESET + GLOBAL BASE */
 * {
   margin: 0;
   padding: 0;
@@ -7,12 +8,23 @@
   font-family: "Inter", sans-serif;
 }
 
+/* ROOT HEIGHT FIX — REQUIRED FOR CENTERING */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* BODY BASE STYLES */
 body {
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
+  display: block;   /* IMPORTANT — prevents flex overrides */
 }
 
+/* FORM + BUTTON DEFAULTS */
 input, button {
   font-family: inherit;
 }
@@ -22,6 +34,7 @@ button {
   transition: var(--transition);
 }
 
+/* LINKS */
 a {
   text-decoration: none;
   color: inherit;

@@ -1,12 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./auth/AuthProvider";
+import { AuthProvider } from "./auth/AuthProvider"; // careful: you have AuthProvider.jsx
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-
 import "./styles/global.css";
 
-function App() {
+const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -18,6 +17,6 @@ function App() {
       </BrowserRouter>
     </AuthProvider>
   );
-}
+};
 
 export default App;
