@@ -40,12 +40,14 @@ const Register = () => {
       <form onSubmit={handleRegister}>
         <InputField
           label="Username"
+          name="username"
           value={form.username}
           onChange={(e) => updateField("username", e.target.value)}
         />
 
         <InputField
           label="Password"
+          name="password"
           type="password"
           value={form.password}
           onChange={(e) => updateField("password", e.target.value)}
