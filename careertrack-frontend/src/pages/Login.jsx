@@ -21,6 +21,11 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
+    if (!form.username || !form.password) {
+      setError("Username and password are required");
+      return;
+    }
+
     try {
       const res = await api.post("/auth/login", form);
       login(res.data.token);

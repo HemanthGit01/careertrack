@@ -1,15 +1,18 @@
 .primary-btn {
   width: 100%;
   padding: 12px;
-  background: var(--color-accent);
-  color: white;
+
+  background-color: #4f7cff;   /* FORCE color */
+  color: #ffffff;              /* FORCE text */
+
   border: none;
-  border-radius: var(--radius);
+  border-radius: 10px;
+
   font-size: 16px;
   font-weight: 500;
-  transition: var(--transition);
+  cursor: pointer;
 }
 
 .primary-btn:hover {
-  background: var(--color-accent-hover);
+  background-color: #3b66e3;
 }
