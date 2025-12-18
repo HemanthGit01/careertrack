@@ -1,0 +1,50 @@
+.jobs-card {
+  background: white;
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 32px;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+.jobs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.jobs-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.add-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: #1e4ed8;
+}
+
+.jobs-empty {
+  text-align: center;
+  padding: 40px 0;
+  color: #6b7280;
+}
+
+.jobs-empty p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.jobs-empty span {
+  font-size: 14px;
+}

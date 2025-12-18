@@ -1,0 +1,25 @@
+.status-badge {
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Applied */
+.status-badge.applied {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+/* Interview */
+.status-badge.interview {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Rejected */
+.status-badge.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
