@@ -2,19 +2,26 @@ package com.hemanth.careertrack.repository;
 
 import com.hemanth.careertrack.model.ApplicationStatus;
 import com.hemanth.careertrack.model.JobApplication;
+import com.hemanth.careertrack.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface JobApplicationRepository extends JpaRepository<JobApplication, Long> {
+import java.util.List;
+import java.util.Optional;
 
-    Page<JobApplication> findByStatus(ApplicationStatus status, Pageable pageable);
+public interface JobApplicationRepository
+        extends JpaRepository<JobApplication, Long> {
 
-    Page<JobApplication> findByCompanyNameContainingIgnoreCase(String companyName, Pageable pageable);
+    List<JobApplication> findByUser(User user);
 
-    Page<JobApplication> findByStatusAndCompanyNameContainingIgnoreCase(
-            ApplicationStatus status, String companyName, Pageable pageable
+    List<JobApplication> findByUserAndStatusAndCompanyNameContainingIgnoreCase(
+            User user,
+            ApplicationStatus status,
+            String companyName
     );
+
+    Optional<JobApplication> findByIdAndUser(Long id, User user);
+
+    Page<JobApplication> findByUser(User user, Pageable pageable);
 }

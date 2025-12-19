@@ -1,6 +1,7 @@
 package com.hemanth.careertrack.service;
 
-import com.hemanth.careertrack.model.JobApplication;
+import com.hemanth.careertrack.dto.JobApplicationRequest;
+import com.hemanth.careertrack.dto.JobApplicationResponse;
 import com.hemanth.careertrack.model.ApplicationStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,16 +10,19 @@ import java.util.List;
 
 public interface JobApplicationService {
 
-    JobApplication create(JobApplication application);
+    JobApplicationResponse create(JobApplicationRequest request);
 
-    JobApplication getById(Long id);
+    List<JobApplicationResponse> getAll(ApplicationStatus status, String companyName);
 
-    List<JobApplication> getAll(ApplicationStatus status, String companyName); // keeps old list API
+    JobApplicationResponse getById(Long id);
 
-    // NEW paged method
-    Page<JobApplication> getAllPaged(ApplicationStatus status, String companyName, Pageable pageable);
-
-    JobApplication update(Long id, JobApplication updated);
+    JobApplicationResponse update(Long id, JobApplicationRequest request);
 
     void delete(Long id);
+
+    Page<JobApplicationResponse> getAllPaged(
+            ApplicationStatus status,
+            String companyName,
+            Pageable pageable
+    );
 }

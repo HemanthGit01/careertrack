@@ -9,19 +9,13 @@ import java.util.stream.Collectors;
 
 public class JobApplicationMapper {
 
-    private JobApplicationMapper() {
-        // utility class, no instances
-    }
+    private JobApplicationMapper() {}
 
     public static JobApplication toEntity(JobApplicationRequest dto) {
-        if (dto == null) {
-            return null;
-        }
-
         return JobApplication.builder()
                 .companyName(dto.getCompanyName())
                 .jobTitle(dto.getJobTitle())
-                .jobLocation(dto.getJobLocation())
+                .jobLocation(dto.getLocation())
                 .status(dto.getStatus())
                 .applicationSource(dto.getApplicationSource())
                 .appliedDate(dto.getAppliedDate())
@@ -32,11 +26,23 @@ public class JobApplicationMapper {
                 .build();
     }
 
-    public static JobApplicationResponse toResponse(JobApplication entity) {
-        if (entity == null) {
-            return null;
-        }
+    public static void updateEntity(
+            JobApplication entity,
+            JobApplicationRequest dto
+    ) {
+        entity.setCompanyName(dto.getCompanyName());
+        entity.setJobTitle(dto.getJobTitle());
+        entity.setJobLocation(dto.getLocation());
+        entity.setStatus(dto.getStatus());
+        entity.setApplicationSource(dto.getApplicationSource());
+        entity.setAppliedDate(dto.getAppliedDate());
+        entity.setJobLink(dto.getJobLink());
+        entity.setExpectedCtc(dto.getExpectedCtc());
+        entity.setOfferedCtc(dto.getOfferedCtc());
+        entity.setNotes(dto.getNotes());
+    }
 
+    public static JobApplicationResponse toResponse(JobApplication entity) {
         return JobApplicationResponse.builder()
                 .id(entity.getId())
                 .companyName(entity.getCompanyName())
@@ -54,8 +60,8 @@ public class JobApplicationMapper {
                 .build();
     }
 
-    public static List<JobApplicationResponse> toResponseList(List<JobApplication> entities) {
-        return entities.stream()
+    public static List<JobApplicationResponse> toResponseList(List<JobApplication> list) {
+        return list.stream()
                 .map(JobApplicationMapper::toResponse)
                 .collect(Collectors.toList());
     }

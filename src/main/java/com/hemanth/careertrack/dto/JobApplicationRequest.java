@@ -20,7 +20,8 @@ public class JobApplicationRequest {
     @NotBlank(message = "Job title is required")
     private String jobTitle;
 
-    private String jobLocation;
+    @NotBlank(message = "Location is required")
+    private String location;
 
     @NotNull(message = "Status is required")
     private ApplicationStatus status;

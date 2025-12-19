@@ -2,9 +2,7 @@ package com.hemanth.careertrack.controller;
 
 import com.hemanth.careertrack.dto.JobApplicationRequest;
 import com.hemanth.careertrack.dto.JobApplicationResponse;
-import com.hemanth.careertrack.mapper.JobApplicationMapper;
 import com.hemanth.careertrack.model.ApplicationStatus;
-import com.hemanth.careertrack.model.JobApplication;
 import com.hemanth.careertrack.service.JobApplicationService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -29,13 +27,10 @@ public class JobApplicationController {
 
     // CREATE
     @PostMapping
-    public ResponseEntity<JobApplicationResponse> create(
-            @Valid @RequestBody JobApplicationRequest request) {
-
-        JobApplication toSave = JobApplicationMapper.toEntity(request);
-        JobApplication saved = service.create(toSave);
-        JobApplicationResponse response = JobApplicationMapper.toResponse(saved);
-
+    public ResponseEntity<JobApplicationResponse> createJobApplication(
+            @Valid @RequestBody JobApplicationRequest request
+    ) {
+        JobApplicationResponse response = service.create(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -43,19 +38,20 @@ public class JobApplicationController {
     @GetMapping
     public ResponseEntity<List<JobApplicationResponse>> getAll(
             @RequestParam(required = false) ApplicationStatus status,
-            @RequestParam(required = false) String companyName) {
-
-        List<JobApplication> entities = service.getAll(status, companyName);
-        List<JobApplicationResponse> responses = JobApplicationMapper.toResponseList(entities);
+            @RequestParam(required = false) String companyName
+    ) {
+        List<JobApplicationResponse> responses =
+                service.getAll(status, companyName);
 
         return ResponseEntity.ok(responses);
     }
 
     // GET BY ID
     @GetMapping("/{id}")
-    public ResponseEntity<JobApplicationResponse> getById(@PathVariable Long id) {
-        JobApplication entity = service.getById(id);
-        JobApplicationResponse response = JobApplicationMapper.toResponse(entity);
+    public ResponseEntity<JobApplicationResponse> getById(
+            @PathVariable Long id
+    ) {
+        JobApplicationResponse response = service.getById(id);
         return ResponseEntity.ok(response);
     }
 
@@ -63,12 +59,9 @@ public class JobApplicationController {
     @PutMapping("/{id}")
     public ResponseEntity<JobApplicationResponse> update(
             @PathVariable Long id,
-            @Valid @RequestBody JobApplicationRequest request) {
-
-        JobApplication updatedEntity = JobApplicationMapper.toEntity(request);
-        JobApplication saved = service.update(id, updatedEntity);
-        JobApplicationResponse response = JobApplicationMapper.toResponse(saved);
-
+            @Valid @RequestBody JobApplicationRequest request
+    ) {
+        JobApplicationResponse response = service.update(id, request);
         return ResponseEntity.ok(response);
     }
 
@@ -79,6 +72,7 @@ public class JobApplicationController {
         return ResponseEntity.noContent().build();
     }
 
+    // PAGED
     @GetMapping("/paged")
     public ResponseEntity<Page<JobApplicationResponse>> getPaged(
             @RequestParam(defaultValue = "0") int page,
@@ -94,11 +88,9 @@ public class JobApplicationController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<JobApplication> result = service.getAllPaged(status, companyName, pageable);
-
-        Page<JobApplicationResponse> response = result.map(JobApplicationMapper::toResponse);
+        Page<JobApplicationResponse> response =
+                service.getAllPaged(status, companyName, pageable);
 
         return ResponseEntity.ok(response);
     }
-
 }
